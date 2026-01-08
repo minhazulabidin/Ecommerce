@@ -2,7 +2,7 @@ require('dotenv').config()
 const { dbConfig } = require('./config/db.config')
 const express = require('express')
 const cors = require('cors')
-const _ = require('./route')
+const router = require('./route/api')
 const app = express()
 const port = process.env.PORT
 dbConfig();
@@ -13,7 +13,7 @@ app.use(cors())
 
 
 //localhost:8080/api/v1/
-app.use(process.env.BASE_ROUTE, _)
+app.use(process.env.BASE_ROUTE, router)
 
 
 app.get('/', (req, res) => {
