@@ -5,15 +5,15 @@ const userSchema = new mongoose.Schema(
         fullName: {
             type: String,
             trim: true,
-            require: [true, "Name is require"]
+            require: [true, "Name is required"]
         },
         email: {
             type: String,
-            require: [true, "Email is require"]
+            require: [true, "Email is required"]
         },
         password: {
             type: String,
-            require: [true, "Password is require"]
+            require: [true, "Password is required"]
         },
         phone: {
             type: String,
