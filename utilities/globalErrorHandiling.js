@@ -6,7 +6,7 @@ exports.globalErrorHandiling = (error, req, res, next) => {
         Object.keys(error.errors).forEach((key) => {
             errors[key] = error.errors[key].message;
         });
-        apiResponse(res, 400, errors)
+        apiResponse(res, 400, Object.values(errors)[0])
     } else if (error.message) {
         apiResponse(res, 500, error.message)
     } else {
