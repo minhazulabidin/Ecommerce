@@ -5,15 +5,16 @@ const userSchema = new mongoose.Schema(
         fullName: {
             type: String,
             trim: true,
-            require: [true, "Name is required"]
+            required: [true, "Name is required"]
         },
         email: {
             type: String,
-            require: [true, "Email is required"]
+            required: [true, "Email is required"],
+            unique: true
         },
         password: {
             type: String,
-            require: [true, "Password is required"]
+            required: [true, "Password is required"]
         },
         phone: {
             type: String,
@@ -32,4 +33,4 @@ const userSchema = new mongoose.Schema(
     }
 )
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("user", userSchema);

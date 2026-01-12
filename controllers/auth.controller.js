@@ -1,4 +1,5 @@
 const userModel = require("../models/user.model");
+const { apiResponse } = require("../utilities/apiResponse");
 
 exports.signupController = async (req, res) => {
     const { fullName, email, password, phone, address } = req.body;
@@ -7,9 +8,5 @@ exports.signupController = async (req, res) => {
         fullName, email, password, phone, address
     })
     await user.save()
-    res.status(201).json({
-        success: true,
-        message: "User registered successfully",
-        user
-    });
+    apiResponse(res, 201, "User registered successfully", user);
 }
