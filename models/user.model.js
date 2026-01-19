@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema(
         email: {
             type: String,
             required: [true, "Email is required"],
-            unique: true
+            unique: [true, "Email already exists"]
         },
         password: {
             type: String,
@@ -36,6 +36,5 @@ const userSchema = new mongoose.Schema(
     }
 )
 
-userSchema.index({ email: 1 }, { unique: true });
 
 module.exports = mongoose.model("user", userSchema);

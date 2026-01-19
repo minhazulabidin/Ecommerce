@@ -25,3 +25,23 @@ exports.signupController = asyncController(async (req, res) => {
     });
 
 })
+
+exports.loginController = asyncController(async (req, res) => {
+    const { email, password } = req.body;
+    const existingUser = await userModel.findOne({ email });
+    if (!existingUser) {
+        apiResponse(res, 404, "User not found with this email");
+    } else {
+        bcrypt.compare(password, existingUser.password, function (err, result) {
+            if (err) {
+                apiResponse(res, 500, "Something went wrong");
+            } else {
+                if (!result) {
+                    apiResponse(res, 401, "Invalid credentials");
+                } else {
+                    apiResponse(res, 200, "Login successful", existingUser);
+                }
+            }
+        });
+    }
+})
