@@ -50,7 +50,7 @@ exports.login = asyncController(async (req, res) => {
                     login: true,
                 }
                 if (existingUser.role == "admin" || existingUser.role == "marcentaizer") {
-                    req.session.cookie.maxAge = 60000;
+                    req.session.cookie.maxAge = 60000 * 5;
                     req.session.user = user
                 } else {
                     req.session.cookie.maxAge = 7 * 24 * 60 * 60 * 1000;
