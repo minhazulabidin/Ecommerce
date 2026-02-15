@@ -21,7 +21,7 @@ exports.registration = asyncController(async (req, res) => {
             }
             const otp = otpGenerator();
             const user = new userModel({
-                fullName, email, password: hash, otp
+                fullName, email, password: hash, otp, otpExpire: Date.now() + 2 * 60 * 1000,
             })
             await user.save();
             sentEmail(email, otp)
@@ -61,6 +61,27 @@ exports.login = asyncController(async (req, res) => {
                 apiResponse(400, res, "Invalid credentials");
             }
         }
+    }
+})
+
+exports.verifyOtp = asyncController(async (req, res) => {
+    const { email, otp } = req.body;
+    const existingUser = await userModel.findOne({ email });
+    if (!existingUser) {
+        apiResponse(401, res, "Invalid Email")
+    }
+    if (existingUser.otp != otp) {
+        apiResponse(401, res, "Invalid Otp")
+    }
+    if (existingUser.otpExpire < Date.now()) {
+        existingUser.otp = null;
+        existingUser.otpExpire = null;
+        await existingUser.save();
+        apiResponse(401, res, "Otp expired")
+    } else {
+        existingUser.verify = true;
+        await existingUser.save();
+        apiResponse(200, res, "Otp verified")
     }
 })
 
