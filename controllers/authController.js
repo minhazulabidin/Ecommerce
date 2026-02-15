@@ -80,6 +80,8 @@ exports.verifyOtp = asyncController(async (req, res) => {
         apiResponse(401, res, "Otp expired")
     } else {
         existingUser.verify = true;
+        existingUser.otp = null;
+        existingUser.otpExpire = null;
         await existingUser.save();
         apiResponse(200, res, "Otp verified")
     }
