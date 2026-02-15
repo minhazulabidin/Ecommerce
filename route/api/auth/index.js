@@ -1,5 +1,5 @@
 const express = require('express');
-const { registration, login, allUserController, verifyOtp } = require('../../../controllers/authController');
+const { registration, login, allUserController, verifyOtp, resentOtp } = require('../../../controllers/authController');
 const { isAuthorize } = require('../../../middleware/isAuthorize');
 const { isAuthorizeRole } = require('../../../middleware/isAuthorizeRole');
 const router = express.Router()
@@ -15,6 +15,9 @@ router.get('/allUsers', isAuthorize, isAuthorizeRole("admin"), allUserController
 
 // verify otp route
 router.post('/verifyOtp', verifyOtp)
+
+// resent verify otp route
+router.post('/resentVerifyOtp', resentOtp)
 
 
 module.exports = router;

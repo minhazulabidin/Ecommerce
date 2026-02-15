@@ -85,6 +85,24 @@ exports.verifyOtp = asyncController(async (req, res) => {
     }
 })
 
+exports.resentOtp = asyncController(async (req, res) => {
+    const { email } = req.body;
+    const existingUser = await userModel.findOne({ email })
+    if (!existingUser) {
+        apiResponse(400, res, "Invalid email")
+    }
+    if (existingUser.verify) {
+        apiResponse(409, res, "Email already verified")
+    } else {
+        const otp = otpGenerator();
+        existingUser.otpExpire = Date.now() + 2 * 60 * 1000;
+        existingUser.otp = otp
+        await existingUser.save()
+        sentEmail(email, otp)
+        apiResponse(200, res, "Otp resent successfully")
+    }
+})
+
 exports.allUserController = asyncController(async (req, res) => {
     const users = await userModel.find({}).select("fullName email role")
     apiResponse(200, res, "All User", users);
