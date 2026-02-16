@@ -4,7 +4,7 @@ const { isAuthorize } = require('../../../middleware/isAuthorize');
 const { isAuthorizeRole } = require('../../../middleware/isAuthorizeRole');
 const router = express.Router()
 
-// regeistration route
+// registration route
 router.post('/register', registration)
 
 // login route
