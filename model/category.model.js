@@ -6,9 +6,12 @@ const categorySchema = new mongoose.Schema({
         type: String,
         required: [true, "Name is required"]
     },
-    subCategory: {
-
-    },
+    subCategory: [
+        {
+            type: mongoose.Types.Objectid,
+            ref: "Subcategory",
+        }
+    ],
     discount: {
         type: Number
     },
