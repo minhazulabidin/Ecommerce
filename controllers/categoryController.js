@@ -16,6 +16,6 @@ exports.addCategoryController = asyncController(async (req, res) => {
 })
 
 exports.allCategoryController = asyncController(async (req, res) => {
-    const allCategory = await categoryModel.find({}).populate()
+    const allCategory = await categoryModel.find({}).populate("subCategory")
     apiResponse(201, res, "All Category",allCategory)
 })
