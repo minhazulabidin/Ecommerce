@@ -11,6 +11,7 @@ exports.globalError = (error, req, res, next) => {
     } else if (error.message) {
         apiResponse(500, res, error.message)
     } else {
-        apiResponse(500, res, "something went wrong")
+        console.log(error)
+        apiResponse(500, res, error)
     }
 }
