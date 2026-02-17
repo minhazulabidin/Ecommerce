@@ -7,10 +7,10 @@ exports.globalError = (error, req, res, next) => {
         Object.keys(error.errors).forEach((key) => {
             errors[key] = error.errors[key].message;
         });
-        apiResponse(res, 400, Object.values(errors)[0])
+        apiResponse(400, res, Object.values(errors)[0])
     } else if (error.message) {
-        apiResponse(res, 500, error.message)
+        apiResponse(500, res, error.message)
     } else {
-        apiResponse(res, 500, "something went wrong")
+        apiResponse(500, res, "something went wrong")
     }
 }

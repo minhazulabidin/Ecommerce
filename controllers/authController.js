@@ -68,16 +68,16 @@ exports.verifyOtp = asyncController(async (req, res) => {
     const { email, otp } = req.body;
     const existingUser = await userModel.findOne({ email });
     if (!existingUser) {
-        apiResponse(401, res, "Invalid Email")
+        return apiResponse(401, res, "Invalid Email")
     }
     if (existingUser.otp != otp) {
-        apiResponse(401, res, "Invalid Otp")
+        return apiResponse(401, res, "Invalid Otp")
     }
     if (existingUser.otpExpire < Date.now()) {
         existingUser.otp = null;
         existingUser.otpExpire = null;
         await existingUser.save();
-        apiResponse(401, res, "Otp expired")
+        return apiResponse(401, res, "Otp expired")
     } else {
         existingUser.verify = true;
         existingUser.otp = null;
