@@ -22,6 +22,7 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false }
 }))
+app.use(express.static('uploads'));
 app.use(process.env.API_URL, router)
 
 app.use(globalError)
