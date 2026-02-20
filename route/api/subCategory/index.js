@@ -1,7 +1,8 @@
 const express = require("express")
-const { subCategoryController } = require("../../../controllers/subCategoryController")
+const { subCategoryController, updateSubCategoriyController } = require("../../../controllers/subCategoryController")
 const router = express.Router()
 
-router.post("/add-subcategory", subCategoryController)
+router.post("/addSubcategory", subCategoryController)
+router.patch("/updateSubcategory/:id", updateSubCategoriyController)
 
 module.exports = router
