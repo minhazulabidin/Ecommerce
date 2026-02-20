@@ -25,3 +25,10 @@ exports.updateSubCategoriyController = asyncController(async (req, res) => {
     await categoryModel.findOneAndUpdate({ _id: category }, { $push: { subCategory: id } }, { new: true })
     apiResponse(200, res, "Sub-Category updated successfully")
 })
+
+exports.deleteSubCategoriyController = asyncController(async (req, res) => {
+    const { id } = req.params;
+    await subCategoryModel.findOneAndDelete({ _id: id })
+    await categoryModel.findOneAndUpdate({ subCategory: id }, { $pull: { subCategory: id } }, { new: true })
+    apiResponse(200, res, "Sub-Category deleted successfully")
+})
