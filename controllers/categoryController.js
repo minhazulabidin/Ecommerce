@@ -1,6 +1,7 @@
 const categoryModel = require("../model/category.model");
 const { apiResponse } = require("../utilities/apiResponse");
 const { asyncController } = require("../utilities/asyncController");
+const slugify = require("slugify");
 const path = require("path");
 const fs = require("fs");
 
@@ -8,9 +9,14 @@ exports.addCategoryController = asyncController(async (req, res) => {
     const { name, subCategory, discount } = req.body
     const { filename } = req.file;
     const image = `${process.env.SEVER_URL}/${filename}`
-
+    const slug = slugify(name, {
+        replacement: '-',
+        remove: undefined,
+        lower: true,
+        trim: true
+    })
     const category = new categoryModel({
-        name, subCategory, discount, image
+        name, subCategory, discount, image, slug
     })
 
     await category.save()
@@ -31,9 +37,17 @@ exports.updateCategoryController = asyncController(async (req, res) => {
         return apiResponse(404, res, "Category not found");
     }
 
-    if (name) category.name = name;
-    if (subCategory) category.subCategory = subCategory;
-    if (discount) category.discount = discount;
+    if (name !== undefined) {
+        category.name = name;
+        category.slug = slugify(name, {
+            replacement: '-',
+            lower: true,
+            trim: true
+        });
+    }
+
+    if (subCategory !== undefined) category.subCategory = subCategory;
+    if (discount !== undefined) category.discount = discount;
 
     if (req.file) {
         const { filename } = req.file;
@@ -42,22 +56,14 @@ exports.updateCategoryController = asyncController(async (req, res) => {
         const imagePath = filePath[filePath.length - 1];
         const oldPath = path.join(__dirname, "../uploads", imagePath);
 
-        fs.unlink(oldPath, async (err) => { 
-            if (err) {
-                return apiResponse(500, res, err.message);
-            }
+        await fs.promises.unlink(oldPath);
 
-            category.image = `${process.env.SEVER_URL}/${filename}`;
-            await category.save();
-
-            return apiResponse(200, res, "Category updated successfully", category);
-        });
-    } else {
-        await category.save();
-        return apiResponse(200, res, "Category updated successfully", category);
+        category.image = `${process.env.SEVER_URL}/${filename}`;
     }
-});
 
+    await category.save();
+    return apiResponse(200, res, "Category updated successfully", category);
+});
 exports.deleteCategoryController = asyncController(async (req, res) => {
     const { id } = req.params;
     const category = await categoryModel.findOne({ _id: id })
