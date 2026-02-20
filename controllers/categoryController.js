@@ -52,3 +52,20 @@ exports.updateCategoryController = asyncController(async (req, res) => {
     }
 
 })
+
+exports.deleteCategoryController = asyncController(async (req, res) => {
+    const { id } = req.params;
+    const category = await categoryModel.findOne({ _id: id })
+    const filePath = category.image.split("/")
+    const imagePath = filePath[filePath.length - 1]
+    const oldPath = path.join(__dirname, "../uploads")
+    // console.log(`${oldPath}/${imagePath}`);
+    fs.unlink(`${oldPath}/${imagePath}`, async (err) => {
+        if (err) {
+            return apiResponse(500, res, err.message)
+        } else {
+            await categoryModel.deleteOne({ _id: id })
+            apiResponse(200, res, "Category delete successfully")
+        }
+    })
+})
