@@ -5,6 +5,8 @@ const slugify = require("slugify");
 const path = require("path");
 const fs = require("fs");
 
+
+// create categories 
 exports.addCategoryController = asyncController(async (req, res) => {
     const { name, subCategory, discount } = req.body
     const { filename } = req.file;
@@ -23,11 +25,7 @@ exports.addCategoryController = asyncController(async (req, res) => {
     apiResponse(200, res, "Category create successfully", category)
 })
 
-exports.allCategoryController = asyncController(async (req, res) => {
-    const allCategory = await categoryModel.find({}).populate("subCategory");
-    apiResponse(201, res, "All Category", allCategory)
-})
-
+// update categories
 exports.updateCategoryController = asyncController(async (req, res) => {
     const { id } = req.params;
     const { name, subCategory, discount } = req.body;
@@ -64,6 +62,8 @@ exports.updateCategoryController = asyncController(async (req, res) => {
     await category.save();
     return apiResponse(200, res, "Category updated successfully", category);
 });
+
+// delete categories
 exports.deleteCategoryController = asyncController(async (req, res) => {
     const { id } = req.params;
     const category = await categoryModel.findOne({ _id: id })
@@ -79,4 +79,17 @@ exports.deleteCategoryController = asyncController(async (req, res) => {
             apiResponse(200, res, "Category delete successfully")
         }
     })
+})
+
+// get all categories
+exports.allCategoryController = asyncController(async (req, res) => {
+    const allCategory = await categoryModel.find({}).populate("subCategory");
+    apiResponse(201, res, "All Category", allCategory)
+})
+
+// get single category
+exports.getSingleCategoryController = asyncController(async (req, res) => {
+    const { slug } = req.params;
+    const category = await categoryModel.findOne({ slug }).populate("subCategory");
+    apiResponse(201, res, "Single Category", category)
 })
