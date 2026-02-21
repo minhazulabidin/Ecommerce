@@ -5,9 +5,13 @@ const subCategorySchema = new mongoose.Schema({
         type: String,
         require: [true, "Name is require"]
     },
-    category: {
+    categoryId: {
         type: mongoose.Types.ObjectId,
         ref: "Category",
+    },
+    slug: {
+        type: String,
+        required: [true, "Slug is required"]
     }
 }, {
     timestamps: true
