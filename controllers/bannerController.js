@@ -3,6 +3,7 @@ const bannerModel = require("../model/banner.model");
 const { apiResponse } = require("../utilities/apiResponse");
 const path = require("path");
 const fs = require("fs");
+const { replaceImage } = require("../helper/replaceImage");
 
 exports.addBannerController = asyncController(async (req, res) => {
     const { url } = req.body;
@@ -23,12 +24,8 @@ exports.updateBannerController = asyncController(async (req, res) => {
     if (url !== undefined) banner.url = url;
     if (req.file !== undefined) {
         const { filename } = req.file;
-
-        const filePath = banner.image.split("/");
-        const imagePath = filePath[filePath.length - 1];
-        const oldPath = path.join(__dirname, "../uploads", imagePath)
-        await fs.promises.unlink(oldPath);
-        banner.image = `${process.env.SEVER_URL}/${filename}`;
+        const image = await replaceImage(banner.image, filename, res)
+        banner.image = image;
     }
     await banner.save();
     apiResponse(200, res, "Banner updated successfully", banner);
