@@ -4,6 +4,7 @@ const { asyncController } = require("../utilities/asyncController");
 const slugify = require("slugify");
 const path = require("path");
 const fs = require("fs");
+const { replaceImage } = require("../helper/replaceImage");
 
 
 // create categories 
@@ -49,13 +50,7 @@ exports.updateCategoryController = asyncController(async (req, res) => {
 
     if (req.file) {
         const { filename } = req.file;
-
-        const filePath = category.image.split("/");
-        const imagePath = filePath[filePath.length - 1];
-        const oldPath = path.join(__dirname, "../uploads", imagePath);
-
-        await fs.promises.unlink(oldPath);
-
+        await replaceImage(category.image, res);
         category.image = `${process.env.SEVER_URL}/${filename}`;
     }
 
@@ -70,7 +65,6 @@ exports.deleteCategoryController = asyncController(async (req, res) => {
     const filePath = category.image.split("/")
     const imagePath = filePath[filePath.length - 1]
     const oldPath = path.join(__dirname, "../uploads")
-    // console.log(`${oldPath}/${imagePath}`);
     fs.unlink(`${oldPath}/${imagePath}`, async (err) => {
         if (err) {
             return apiResponse(500, res, err.message)

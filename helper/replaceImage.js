@@ -2,7 +2,7 @@ const path = require("path");
 const fs = require("fs");
 const { apiResponse } = require("../utilities/apiResponse");
 
-exports.replaceImage = async (oldImageUrl, newFilename,res, uploadFolder = "uploads") => {
+exports.replaceImage = async (oldImageUrl, res, uploadFolder = "uploads") => {
     if (!oldImageUrl) return null;
 
     const fileParts = oldImageUrl.split("/");
@@ -11,11 +11,8 @@ exports.replaceImage = async (oldImageUrl, newFilename,res, uploadFolder = "uplo
     const oldPath = path.join(__dirname, `../${uploadFolder}`, oldImageName);
 
     try {
-        await fs.promises.unlink(oldPath);
+        return await fs.promises.unlink(oldPath);
     } catch (err) {
         apiResponse(400, res, err.message)
     }
-
-    return `${process.env.SEVER_URL}/${newFilename}`;
-};
-
+}
