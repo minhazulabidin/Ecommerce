@@ -6,8 +6,11 @@ const reviewSchema = new mongoose.Schema({
         ref: "user"
     },
     comment: {
-        type: String,
-        require: [true, "comment is required"]
+        type: String
+    },
+    ratting:{
+        type:Number,
+        require: [true, "ratting is required"]
     },
     image: {
         type: String
