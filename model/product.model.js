@@ -8,7 +8,8 @@ const productSchema = new mongoose.Schema({
     },
     sku: {
         type: String,
-        trim: true
+        trim: true,
+        required: [true, "sku is required"]
     },
     slug: {
         type: String,
@@ -33,6 +34,7 @@ const productSchema = new mongoose.Schema({
     category: {
         type: mongoose.Types.ObjectId,
         ref: "Category",
+        required: [true, "category is required"]
     },
     variantType: {
         type: String,

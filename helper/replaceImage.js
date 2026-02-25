@@ -2,7 +2,7 @@ const path = require("path");
 const fs = require("fs");
 const { apiResponse } = require("../utilities/apiResponse");
 
-exports.replaceImage = async (oldImageUrl, res, uploadFolder = "uploads") => {
+exports.replaceImage = async (oldImageUrl, uploadFolder = "uploads") => {
     if (!oldImageUrl) return null;
 
     const fileParts = oldImageUrl.split("/");
@@ -10,9 +10,5 @@ exports.replaceImage = async (oldImageUrl, res, uploadFolder = "uploads") => {
 
     const oldPath = path.join(__dirname, `../${uploadFolder}`, oldImageName);
 
-    try {
-        return await fs.promises.unlink(oldPath);
-    } catch (err) {
-        apiResponse(400, res, err.message)
-    }
+    return await fs.promises.unlink(oldPath);
 }

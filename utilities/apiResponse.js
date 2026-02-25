@@ -1,5 +1,5 @@
 exports.apiResponse = (statusCode, res, message, data) => {
-    res.status(statusCode).json({
+   return res.status(statusCode).json({
         statusCode,
         success: statusCode >= 400 ? false : true,
         message: message,
