@@ -42,7 +42,10 @@ exports.deleteProductController = asyncController(async (req, res) => {
 })
 
 exports.allProductController = asyncController(async (req, res) => {
-    const allProducts = await productModel.find({})
+    const allProducts = await productModel.find({}).populate({
+        path:"variant",
+        select:"color size quantity"
+    })
     apiResponse(200, res, "All product fetch successfully", allProducts)
 })
 

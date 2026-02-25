@@ -17,7 +17,13 @@ const variantSchema = new mongoose.Schema({
         type: String,
         trim: true,
         require: [true, "sku is required"]
+    },
+    productId: {
+        type: mongoose.Types.ObjectId,
+        ref: "Product"
     }
-}, { timeStamps: true })
+}, {
+    timeStamps: true
+})
 
 module.exports = mongoose.model("Variant", variantSchema)

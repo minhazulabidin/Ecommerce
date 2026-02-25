@@ -7,5 +7,6 @@ router.use('/subCategory', require('./subCategory'));
 router.use('/banner', require('./banner'));
 router.use('/merchant', require('./merchant'));
 router.use('/products', require('./product'))
+router.use('/variant', require('./variant'))
 
 module.exports = router;
