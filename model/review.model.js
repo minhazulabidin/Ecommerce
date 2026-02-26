@@ -1,16 +1,21 @@
 const { default: mongoose } = require("mongoose");
 
 const reviewSchema = new mongoose.Schema({
-    user: {
+    userId: {
         type: mongoose.Types.ObjectId,
-        ref: "user"
+        ref: "user",
+        require: [true, "user is required"]
     },
     comment: {
         type: String
     },
-    ratting:{
-        type:Number,
+    ratting: {
+        type: Number,
         require: [true, "ratting is required"]
+    },
+    productId: {
+        type: mongoose.Types.ObjectId,
+        ref: "Product"
     },
     image: {
         type: String

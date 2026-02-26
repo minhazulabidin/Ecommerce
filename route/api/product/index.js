@@ -6,6 +6,6 @@ const router = express.Router()
 router.post('/addProduct', upload.array("image", 5), addProductController)
 router.delete('/deleteProduct/:id', deleteProductController)
 router.get('/allProducts', allProductController)
-router.get('/singleProduct/:slug', singleProductController)
+router.get('/:slug', singleProductController)
 
 module.exports = router;

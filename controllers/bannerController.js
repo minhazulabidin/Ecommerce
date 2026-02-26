@@ -24,7 +24,7 @@ exports.updateBannerController = asyncController(async (req, res) => {
     if (url !== undefined) banner.url = url;
     if (req.file !== undefined) {
         const { filename } = req.file;
-        await replaceImage(banner.image, res)
+        await replaceImage(banner.image)
         banner.image = `${process.env.SEVER_URL}/${filename}`;
     }
     await banner.save();
