@@ -11,7 +11,8 @@ const variantSchema = new mongoose.Schema({
     },
     quantity: {
         type: Number,
-        trim: true
+        trim: true,
+        default: 1
     },
     sku: {
         type: String,
