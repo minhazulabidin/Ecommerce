@@ -38,8 +38,8 @@ const productSchema = new mongoose.Schema({
     },
     variantType: {
         type: String,
-        enum: ["singlevariant", "multivariant"],
-        default: "singlevariant"
+        enum: ["singleVariant", "multiVariant"],
+        default: "singleVariant"
     },
     variant: [
         {

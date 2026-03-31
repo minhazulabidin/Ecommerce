@@ -1,54 +1,58 @@
-const cartModel = require("../model/cart.model");
 const productModel = require("../model/product.model");
+const cartModel = require("../model/cart.model");
 const { apiResponse } = require("../utilities/apiResponse");
 const { asyncController } = require("../utilities/asyncController");
 
 exports.addToCartController = asyncController(async (req, res) => {
-    const { product, user, quantity, variant } = req.body;
+    const { product, quantity, variant } = req.body;
+    const productData = await productModel.findById({ _id: product });
+    const user = req.session.user._id;
 
-    if (!product || !user) {
-        return apiResponse(400, res, "Product and user are required");
-    }
+    const cartData = await cartModel.findOne({ product, user, variant: variant || null });
 
-    const productData = await productModel.findById(product);
+if (!productData) {
+    return apiResponse(404, res, false, "Product not found")
+}
 
-    if (!productData) {
-        return apiResponse(404, res, "Product not found");
-    }
+const totalPrice = productData.price * (quantity ? quantity : 1);
 
-    const qtyToAdd = quantity ? Number(quantity) : 1;
+if (cartData) {
+    cartData.quantity += quantity ? quantity : 1;
+    cartData.totalPrice = cartData.quantity * productData.price;
+    await cartData.save();
+    apiResponse(200, res, "Product quantity updated in cart successfully", cartData)
 
-    let cartData = await cartModel.findOne({ product, user });
-
-    if (cartData) {
-
-        // quantity add হবে
-        cartData.quantity += qtyToAdd;
-
-        // totalPrice নতুন করে হিসাব হবে
-        cartData.totalPrice = cartData.quantity * productData.price;
-
-        await cartData.save();
-
-        return apiResponse(200, res, "Product quantity updated in cart", cartData);
-
-    } else {
-
-        // multivariant হলে variant required
-        if (productData.variant === "multivariant" && !variant) {
-            return apiResponse(400, res, "Variant is required");
+} else {
+    if (productData.variantType === "multiVariant") {
+        if (!variant) {
+            return apiResponse(400, res, "Variant is required for multi variant product")
+        } else {
+            const addToCart = new cartModel({
+                user, product, quantity, totalPrice, variant
+            })
+            await addToCart.save();
+            return apiResponse(200, res, "Product added to cart successfully", addToCart)
         }
-
-        const totalPrice = productData.price * qtyToAdd;
-
-        const newCart = await cartModel.create({
-            product,
-            user,
-            quantity: qtyToAdd,
-            variant,
-            totalPrice
-        });
-
-        return apiResponse(201, res, "Product added to cart", newCart);
+    } else {
+        const addToCart = new cartModel({
+            user, product, quantity, totalPrice
+        })
+        await addToCart.save();
+        return apiResponse(200, res, "Product added to cart successfully", addToCart)
     }
-});
+}
+
+
+})
+
+exports.singleProductCartController = asyncController(async (req, res) => {
+    const { user } = req.params
+
+    const cartData = await cartModel.find({ user }).populate({ path: "product", select: "title price image variantType" }).populate({ path: "user", select: "fullName" }).populate({ path: "variant" })
+
+    if (!cartData) {
+        return apiResponse(404, res, false, "Cart not found")
+    }
+
+    apiResponse(200, res, "Cart data fetch successfully", cartData)
+})
