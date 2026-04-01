@@ -36,10 +36,10 @@ const orderSchema = new mongoose.Schema({
         ref: "user",
         required: [true, "User is required"]
     },
-    // totalPrice: {
-    //     type: Number,
-    //     required: [true, "Total price is required"]
-    // },
+    totalPrice: {
+        type: Number,
+        required: [true, "Total price is required"]
+    },
     items: [
         {
             product: {
@@ -67,6 +67,15 @@ const orderSchema = new mongoose.Schema({
         enum: ["pending", "shipped", "delivered", "cancelled"],
         default: "pending",
         required: [true, "Delivery status is required"]
+    },
+    paymentStatus: {
+        type: String,
+        enum: ["pending", "paid", "failed"],
+        default: "pending",
+        required: [true, "Payment status is required"]
+    },
+    trans_id:{
+        type: String
     }
 
 },
