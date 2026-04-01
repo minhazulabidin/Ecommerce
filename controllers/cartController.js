@@ -5,8 +5,8 @@ const { asyncController } = require("../utilities/asyncController");
 
 exports.addToCartController = asyncController(async (req, res) => {
     const { product, quantity, variant } = req.body;
-    const productData = await productModel.findById({ _id: product });
     const user = req.session.user._id;
+    const productData = await productModel.findById({ _id: product });
 
     const cartData = await cartModel.findOne({ product, user, variant: variant || null });
 
