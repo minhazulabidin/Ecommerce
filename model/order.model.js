@@ -17,6 +17,10 @@ const addressSchema = new mongoose.Schema({
         type: String,
         required: [true, "District is required"]
     },
+    country: {
+        type: String,
+        required: [true, "Country is required"]
+    },
     postalCode: {
         type: String
     },
@@ -32,10 +36,10 @@ const orderSchema = new mongoose.Schema({
         ref: "user",
         required: [true, "User is required"]
     },
-    totalPrice: {
-        type: Number,
-        required: [true, "Total price is required"]
-    },
+    // totalPrice: {
+    //     type: Number,
+    //     required: [true, "Total price is required"]
+    // },
     items: [
         {
             product: {
@@ -48,6 +52,7 @@ const orderSchema = new mongoose.Schema({
             },
             quantity: {
                 type: Number,
+                default: 1
             }
         }
     ],
@@ -60,8 +65,10 @@ const orderSchema = new mongoose.Schema({
     deliveryStatus: {
         type: String,
         enum: ["pending", "shipped", "delivered", "cancelled"],
-        default: "pending"
+        default: "pending",
+        required: [true, "Delivery status is required"]
     }
+
 },
     {
         timestamps: true
