@@ -5,13 +5,16 @@ const slugify = require("slugify");
 const path = require("path");
 const fs = require("fs");
 const { replaceImage } = require("../helper/replaceImage");
+const uploadImage = require("../utilities/uploadImage");
 
 
 // create categories 
 exports.addCategoryController = asyncController(async (req, res) => {
     const { name, subCategory, discount } = req.body
-    const { filename } = req.file;
-    const image = `${process.env.SEVER_URL}/${filename}`
+    const { filename, path } = req.file;
+    const { url: image, public_id: image_id } = await uploadImage(path, "categories");
+    await replaceImage(filename);
+
     const slug = slugify(name, {
         replacement: '-',
         remove: undefined,
@@ -19,7 +22,7 @@ exports.addCategoryController = asyncController(async (req, res) => {
         trim: true
     })
     const category = new categoryModel({
-        name, subCategory, discount, image, slug
+        name, subCategory, discount, image, image_id, slug
     })
 
     await category.save()
@@ -50,7 +53,7 @@ exports.updateCategoryController = asyncController(async (req, res) => {
 
     if (req.file) {
         const { filename } = req.file;
-        await replaceImage(category.image, res);
+        await replaceImage(category.image);
         category.image = `${process.env.SEVER_URL}/${filename}`;
     }
 

@@ -23,11 +23,15 @@ const categorySchema = new mongoose.Schema({
         }
     ],
     discount: {
-        type: Number
+        type: Number,
+        default: 0
     },
     image: {
         type: String,
         required: [true, "Image is required"]
+    },
+    image_id:{
+        type: String,
     }
 
 },

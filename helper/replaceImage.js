@@ -2,13 +2,17 @@ const path = require("path");
 const fs = require("fs");
 const { apiResponse } = require("../utilities/apiResponse");
 
-exports.replaceImage = async (oldImageUrl, uploadFolder = "uploads") => {
+exports.replaceImage = async (oldImageUrl) => {
     if (!oldImageUrl) return null;
 
-    const fileParts = oldImageUrl.split("/");
-    const oldImageName = fileParts[fileParts.length - 1];
+    const path = require("path");
+    const fs = require("fs");
+    try {
+        const oldPath = path.join(__dirname, `../uploads`, oldImageUrl);
+        await fs.promises.unlink(oldPath);
 
-    const oldPath = path.join(__dirname, `../${uploadFolder}`, oldImageName);
+    } catch (error) {
+        console.error("Delete error:", error.message);
+    }
 
-    return await fs.promises.unlink(oldPath);
 }
