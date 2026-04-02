@@ -2,8 +2,6 @@ const categoryModel = require("../model/category.model");
 const { apiResponse } = require("../utilities/apiResponse");
 const { asyncController } = require("../utilities/asyncController");
 const slugify = require("slugify");
-const path = require("path");
-const fs = require("fs");
 const { replaceImage } = require("../helper/replaceImage");
 const uploadImage = require("../utilities/uploadImage");
 
@@ -52,9 +50,11 @@ exports.updateCategoryController = asyncController(async (req, res) => {
     if (discount !== undefined) category.discount = discount;
 
     if (req.file) {
-        const { filename } = req.file;
-        await replaceImage(category.image);
-        category.image = `${process.env.SEVER_URL}/${filename}`;
+        const { filename, path } = req.file;
+        await replaceImage(filename);
+        const { url: image, public_id: image_id } = await uploadImage(path, "categories");
+        category.image = image;
+        category.image_id = image_id;
     }
 
     await category.save();
@@ -66,7 +66,7 @@ exports.deleteCategoryController = asyncController(async (req, res) => {
     const { id } = req.params;
     const category = await categoryModel.findOne({ _id: id })
     try {
-        await replaceImage(category.image)
+        await cloudinary.uploader.destroy(category.image_id);
         await categoryModel.deleteOne({ _id: id })
         apiResponse(200, res, "Category delete successfully")
     } catch (err) {

@@ -3,23 +3,31 @@ const slugify = require('slugify')
 const { apiResponse } = require("../utilities/apiResponse");
 const { asyncController } = require("../utilities/asyncController");
 const categoryModel = require("../model/category.model");
-const path = require("path")
-const fs = require("fs");
 const { replaceImage } = require("../helper/replaceImage");
+const uploadImage = require("../utilities/uploadImage");
 
 exports.addProductController = asyncController(async (req, res) => {
     const { name, price, discountPrice, rating, description, category, variantType, sku } = req.body;
-    const filenames = req.files.map(item => {
-        return `${process.env.SEVER_URL}/${item.filename}`
-    })
     const slug = slugify(name, {
         replacement: '-',
         remove: undefined,
         lower: true,
         trim: true
     })
+    const uploadedImages = await Promise.all(
+        req.files.map(async (file) => {
+
+            const result = await uploadImage(file.path, "products");
+            await replaceImage(file.filename);
+            return {
+                url: result.url,
+                public_id: result.public_id
+            };
+        })
+    );
+
     const products = await productModel({
-        name, slug, sku, price, discountPrice, image: filenames, rating, description, category, variantType
+        name, slug, sku, price, discountPrice, image: uploadedImages, rating, description, category, variantType
     })
     await products.save()
     await categoryModel.findByIdAndUpdate(category, { $push: { product: products._id } })
@@ -43,8 +51,8 @@ exports.deleteProductController = asyncController(async (req, res) => {
 
 exports.allProductController = asyncController(async (req, res) => {
     const allProducts = await productModel.find({}).populate({
-        path:"variant",
-        select:"color size quantity"
+        path: "variant",
+        select: "color size quantity"
     })
     apiResponse(200, res, "All product fetch successfully", allProducts)
 })

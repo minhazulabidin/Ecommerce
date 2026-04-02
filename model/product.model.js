@@ -30,7 +30,17 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: [true, "Description is required"]
     },
-    image: [String],
+    image: [
+        {
+            url: String,
+            public_id: String
+        }
+    ],
+    subCategory: {
+        type: mongoose.Types.ObjectId,
+        ref: "SubCategory",
+        // required: [true, "subCategory is required"]  
+    },
     category: {
         type: mongoose.Types.ObjectId,
         ref: "Category",
@@ -47,10 +57,10 @@ const productSchema = new mongoose.Schema({
             ref: "Variant"
         }
     ],
-    review:[
+    review: [
         {
-            type:mongoose.Types.ObjectId,
-            ref:"Review"
+            type: mongoose.Types.ObjectId,
+            ref: "Review"
         }
     ]
 }, {
