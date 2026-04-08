@@ -2,15 +2,17 @@ const categoryModel = require("../model/category.model");
 const { apiResponse } = require("../utilities/apiResponse");
 const { asyncController } = require("../utilities/asyncController");
 const slugify = require("slugify");
-const path = require("path");
-const fs = require("fs");
+const { replaceImage } = require("../helper/replaceImage");
+const uploadImage = require("../utilities/uploadImage");
 
 
 // create categories 
 exports.addCategoryController = asyncController(async (req, res) => {
     const { name, subCategory, discount } = req.body
-    const { filename } = req.file;
-    const image = `${process.env.SEVER_URL}/${filename}`
+    const { filename, path } = req.file;
+    const { url: image, public_id: image_id } = await uploadImage(path, "categories");
+    await replaceImage(filename);
+
     const slug = slugify(name, {
         replacement: '-',
         remove: undefined,
@@ -18,7 +20,7 @@ exports.addCategoryController = asyncController(async (req, res) => {
         trim: true
     })
     const category = new categoryModel({
-        name, subCategory, discount, image, slug
+        name, subCategory, discount, image, image_id, slug
     })
 
     await category.save()
@@ -48,15 +50,11 @@ exports.updateCategoryController = asyncController(async (req, res) => {
     if (discount !== undefined) category.discount = discount;
 
     if (req.file) {
-        const { filename } = req.file;
-
-        const filePath = category.image.split("/");
-        const imagePath = filePath[filePath.length - 1];
-        const oldPath = path.join(__dirname, "../uploads", imagePath);
-
-        await fs.promises.unlink(oldPath);
-
-        category.image = `${process.env.SEVER_URL}/${filename}`;
+        const { filename, path } = req.file;
+        await replaceImage(filename);
+        const { url: image, public_id: image_id } = await uploadImage(path, "categories");
+        category.image = image;
+        category.image_id = image_id;
     }
 
     await category.save();
@@ -67,18 +65,13 @@ exports.updateCategoryController = asyncController(async (req, res) => {
 exports.deleteCategoryController = asyncController(async (req, res) => {
     const { id } = req.params;
     const category = await categoryModel.findOne({ _id: id })
-    const filePath = category.image.split("/")
-    const imagePath = filePath[filePath.length - 1]
-    const oldPath = path.join(__dirname, "../uploads")
-    // console.log(`${oldPath}/${imagePath}`);
-    fs.unlink(`${oldPath}/${imagePath}`, async (err) => {
-        if (err) {
-            return apiResponse(500, res, err.message)
-        } else {
-            await categoryModel.deleteOne({ _id: id })
-            apiResponse(200, res, "Category delete successfully")
-        }
-    })
+    try {
+        await cloudinary.uploader.destroy(category.image_id);
+        await categoryModel.deleteOne({ _id: id })
+        apiResponse(200, res, "Category delete successfully")
+    } catch (err) {
+        apiResponse(500, res, err.message)
+    }
 })
 
 // get all categories

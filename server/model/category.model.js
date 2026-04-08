@@ -16,12 +16,22 @@ const categorySchema = new mongoose.Schema({
             ref: "SubCategory",
         }
     ],
+    product: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: "Product",
+        }
+    ],
     discount: {
-        type: Number
+        type: Number,
+        default: 0
     },
     image: {
         type: String,
         required: [true, "Image is required"]
+    },
+    image_id:{
+        type: String,
     }
 
 },

@@ -4,7 +4,7 @@ const { apiResponse } = require("../utilities/apiResponse");
 const { asyncController } = require("../utilities/asyncController");
 const slugify = require("slugify")
 
-exports.subCategoryController = asyncController(async (req, res) => {
+exports.addSubCategoryController = asyncController(async (req, res) => {
     const { name, categoryId } = req.body;
     const slug = slugify(name, {
         replacement: '-',
