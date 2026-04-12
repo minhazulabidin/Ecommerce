@@ -20,7 +20,8 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false }
+    cookie: { secure: false },
+    rolling: true
 }))
 app.use(express.static('uploads'));
 app.use(process.env.API_URL, router)

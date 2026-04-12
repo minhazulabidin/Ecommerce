@@ -19,7 +19,7 @@ router.post('/verifyOtp', verifyOtp)
 // resent verify otp route
 router.post('/resentVerifyOtp', resentOtp)
 
-router.get("/me", isAuthorize, getMeController)
+router.get("/me", isAuthorize, isAuthorizeRole("admin"), getMeController)
 
 
 module.exports = router;
