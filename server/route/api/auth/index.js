@@ -1,5 +1,5 @@
 const express = require('express');
-const { registration, login, allUserController, verifyOtp, resentOtp } = require('../../../controllers/authController');
+const { registration, login, allUserController, verifyOtp, resentOtp, getMeController } = require('../../../controllers/authController');
 const { isAuthorize } = require('../../../middleware/isAuthorize');
 const { isAuthorizeRole } = require('../../../middleware/isAuthorizeRole');
 const router = express.Router()
@@ -18,6 +18,8 @@ router.post('/verifyOtp', verifyOtp)
 
 // resent verify otp route
 router.post('/resentVerifyOtp', resentOtp)
+
+router.get("/me", isAuthorize, getMeController)
 
 
 module.exports = router;

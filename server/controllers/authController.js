@@ -109,3 +109,8 @@ exports.allUserController = asyncController(async (req, res) => {
     const users = await userModel.find({}).select("fullName email role")
     apiResponse(200, res, "All User", users);
 })
+
+exports.getMeController = asyncController(async (req, res) => {
+    const user = await userModel.findOne({ email: req.session.user.email }).select("fullName email role")
+    apiResponse(200, res, "User found", user)
+})

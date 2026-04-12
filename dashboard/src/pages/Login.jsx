@@ -1,10 +1,13 @@
+import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function Login() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -16,7 +19,11 @@ export default function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-
+    axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, formData,{ withCredentials: true }).then(() => {
+      navigate("/");
+    }).catch((err) => {
+      console.log(err);
+    });
   };
 
   return (
