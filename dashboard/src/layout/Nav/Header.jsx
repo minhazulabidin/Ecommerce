@@ -6,7 +6,7 @@ export default function Header() {
   const { user } = useLoginInfo();
 
   return (
-    <header className="flex shadow-md py-1 px-4 sm:px-7 bg-white min-h-[70px] tracking-wide z-[110] fixed top-0 w-full">
+    <header className="flex shadow-md py-1 px-4 sm:px-7 bg-white min-h-17.5 tracking-wide z-110 fixed top-0 w-full">
       <div className="flex flex-wrap items-center justify-between gap-4 w-full relative">
         <Link to={"/"}>
           <img
@@ -38,7 +38,7 @@ export default function Header() {
               />
             </svg>
           </button>
-          <div className="max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50">
+          <div className="max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-75 max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50">
             <div className="flex items-center max-lg:flex-col-reverse max-lg:ml-auto gap-8">
               <div className="flex w-full bg-gray-100 px-4 py-2.5 rounded-sm outline-0 border border-gray-200 focus-within:border-blue-600 focus-within:bg-transparent transition-all">
                 <input
@@ -127,7 +127,7 @@ export default function Header() {
             </div>
           </div>
         </div>
-        <button id="toggleOpen" className="lg:hidden !ml-7 outline-0">
+        <button id="toggleOpen" className="lg:hidden ml-7! outline-0">
           <svg
             className="w-7 h-7"
             fill="#000"
