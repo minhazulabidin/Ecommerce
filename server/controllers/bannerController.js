@@ -32,3 +32,8 @@ exports.updateBannerController = asyncController(async (req, res) => {
   await banner.save();
   apiResponse(200, res, "Banner updated successfully", banner);
 });
+
+exports.getAllBannerController = asyncController(async (req, res) => {
+  const banners = await bannerModel.find();
+  apiResponse(200, res, "Banners retrieved successfully", banners);
+});

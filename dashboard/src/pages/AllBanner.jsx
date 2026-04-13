@@ -1,6 +1,11 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
 
 export const AllBanner = () => {
+  useEffect(() => {
+    axios.get(`${import.meta.env.VITE_API_URL}/banner/allBanner`)
+  },[]);
+
   return (
     <div className="max-w-screen py-6 mx-auto">
       <div className="space-y-6">
