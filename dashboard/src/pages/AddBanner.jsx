@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 export const AddBanner = () => {
   const [image, setImage] = useState(null);
@@ -13,17 +14,29 @@ export const AddBanner = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = {
-      image,
-      redirectUrl: url,
-    };
+    const formData = new FormData();
+    formData.append("image", image);
+    formData.append("url", url);
 
-    console.log("Banner Data:", formData);
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/banner/addBanner`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        },
+      );
 
-    // এখানে API call দিবা
+      console.log(res.data);
+    } catch (err) {
+      console.error(err.response?.data || err.message);
+    }
   };
 
   return (
@@ -57,7 +70,7 @@ export const AddBanner = () => {
                 <button
                   type="button"
                   onClick={(e) => {
-                    e.stopPropagation(); 
+                    e.stopPropagation();
                     setPreview(null);
                     setImage(null);
                   }}
