@@ -2,14 +2,12 @@ import React from "react";
 import { Link } from "react-router";
 
 export default function SideNavBar() {
-
-  
   return (
     <nav id="sidebar" className="lg:min-w-70 w-max max-lg:min-w-8">
       <div
         id="sidebar-collapse-menu"
         style={{ height: "calc(100vh - 72px)" }}
-        className="bg-white shadow-lg h-screen fixed py-6 px-4 top-17.5 left-0 overflow-auto z-[99] lg:min-w-[270px] lg:w-max max-lg:w-0 max-lg:invisible transition-all duration-500"
+        className="bg-white shadow-lg h-screen fixed py-6 px-4 top-17.5 left-0 overflow-auto z-99 lg:min-w-67.5 lg:w-max max-lg:w-0 max-lg:invisible transition-all duration-500"
       >
         <ul className="space-y-1.5">
           <li>
@@ -37,9 +35,7 @@ export default function SideNavBar() {
           </li>
         </ul>
         <div className="mt-6">
-          <h6 className="text-blue-600 text-sm font-semibold px-4">
-            Product
-          </h6>
+          <h6 className="text-blue-600 text-sm font-semibold px-4">Product</h6>
           <ul className="mt-3 space-y-1.5">
             <li>
               <Link
@@ -68,7 +64,7 @@ export default function SideNavBar() {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
-                  className="w-[18px] h-[18px] mr-3"
+                  className="w-4.5 h-4.5 mr-3"
                   viewBox="0 0 24 24"
                 >
                   <path
@@ -119,7 +115,7 @@ export default function SideNavBar() {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
-                  className="w-4.5 h-[18px] mr-3"
+                  className="w-4.5 h-4.5 mr-3"
                   viewBox="0 0 193.769 193.769"
                 >
                   <path
@@ -149,7 +145,7 @@ export default function SideNavBar() {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
-                  className="w-[18px] h-[18px] mr-3"
+                  className="w-4.5 h-4.5 mr-3"
                   viewBox="0 0 214.27 214.27"
                 >
                   <path
@@ -172,7 +168,7 @@ export default function SideNavBar() {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
-                  className="w-[18px] h-[18px] mr-3"
+                  className="w-4.5 h-4.5 mr-3"
                   viewBox="0 0 64 64"
                 >
                   <path
@@ -197,7 +193,7 @@ export default function SideNavBar() {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
-                  className="w-[18px] h-[18px] mr-3"
+                  className="w-4.5 h-4.5 mr-3"
                   viewBox="0 0 512 512"
                 >
                   <path
@@ -216,7 +212,7 @@ export default function SideNavBar() {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
-                  className="w-[18px] h-[18px] mr-3"
+                  className="w-4.5 h-4.5 mr-3"
                   viewBox="0 0 6.35 6.35"
                 >
                   <path
