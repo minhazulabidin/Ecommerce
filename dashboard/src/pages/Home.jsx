@@ -1,66 +1,8 @@
-import React, { useEffect, useRef } from "react";
-import Chart from "chart.js/auto";
+import { RevenueChart } from "../Components/RevenueChart";
 
 export default function Home() {
-  const chartRef = useRef(null);
 
-  useEffect(() => {
-    const ctx = chartRef.current.getContext("2d");
-
-    const chart = new Chart(ctx, {
-      type: "line",
-      data: {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-        datasets: [
-          {
-            label: "Revenue",
-            data: [25000, 32000, 28000, 35000, 42000, 48000],
-            borderColor: "#1e40af",
-            backgroundColor: "rgba(30, 64, 175, 0.1)",
-            borderWidth: 3,
-            fill: true,
-            tension: 0.4,
-            pointBackgroundColor: "#1e40af",
-            pointBorderColor: "#ffffff",
-            pointBorderWidth: 2,
-            pointRadius: 5,
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false,
-          },
-        },
-        scales: {
-          x: {
-            grid: { display: false },
-            ticks: { color: "#6b7280" },
-          },
-          y: {
-            beginAtZero: true,
-            grid: { color: "#f3f4f6" },
-            ticks: {
-              color: "#6b7280",
-              callback: function (value) {
-                return "$" + value.toLocaleString();
-              },
-            },
-          },
-        },
-        elements: {
-          point: {
-            hoverRadius: 8,
-          },
-        },
-      },
-    });
-
-    return () => chart.destroy(); // cleanup (important)
-  }, []);
+ 
   return (
     <main className="p-4 w-full">
       {/* Stats Cards */}
@@ -171,7 +113,7 @@ export default function Home() {
             </div>
           </div>
           <div className="h-80">
-            <canvas ref={chartRef} />
+            <RevenueChart />
           </div>
         </div>
         {/* Top Products */}
@@ -184,22 +126,7 @@ export default function Home() {
               View All
             </button>
           </div>
-          <div className="space-y-4">
-            <div className="flex items-center space-x-4">
-              <img
-                src="https://i.ytimg.com/vi/08JoSCHV9VY/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAC7M1K4hMJbmFQQFppnSNzsZAcRA"
-                alt="Product"
-                className="w-12 h-12 rounded-lg"
-              />
-              <div className="flex-1">
-                <p className="font-medium text-gray-900">iPhone 15 Pro</p>
-                <p className="text-sm text-gray-600">Electronics</p>
-              </div>
-              <div className="text-right">
-                <p className="font-semibold text-gray-900">$1,299</p>
-                <p className="text-sm text-green-600">+12%</p>
-              </div>
-            </div>
+          <div className="space-y-4">      
             <div className="flex items-center space-x-4">
               <img
                 src="https://i.ytimg.com/vi/08JoSCHV9VY/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAC7M1K4hMJbmFQQFppnSNzsZAcRA"
@@ -213,36 +140,6 @@ export default function Home() {
               <div className="text-right">
                 <p className="font-semibold text-gray-900">$2,499</p>
                 <p className="text-sm text-green-600">+8%</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <img
-                src="https://i.ytimg.com/vi/08JoSCHV9VY/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAC7M1K4hMJbmFQQFppnSNzsZAcRA"
-                alt="Product"
-                className="w-12 h-12 rounded-lg"
-              />
-              <div className="flex-1">
-                <p className="font-medium text-gray-900">AirPods Pro</p>
-                <p className="text-sm text-gray-600">Audio</p>
-              </div>
-              <div className="text-right">
-                <p className="font-semibold text-gray-900">$249</p>
-                <p className="text-sm text-green-600">+15%</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <img
-                src="https://i.ytimg.com/vi/08JoSCHV9VY/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAC7M1K4hMJbmFQQFppnSNzsZAcRA"
-                alt="Product"
-                className="w-12 h-12 rounded-lg"
-              />
-              <div className="flex-1">
-                <p className="font-medium text-gray-900">Apple Watch</p>
-                <p className="text-sm text-gray-600">Wearables</p>
-              </div>
-              <div className="text-right">
-                <p className="font-semibold text-gray-900">$399</p>
-                <p className="text-sm text-green-600">+6%</p>
               </div>
             </div>
           </div>
