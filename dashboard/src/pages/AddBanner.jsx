@@ -46,6 +46,9 @@ export const AddBanner = () => {
       console.error(err.response?.data || err.message);
     } finally {
       setLoading(false);
+      setImage(null);
+      setPreview(null);
+      setUrl("");
     }
   };
 

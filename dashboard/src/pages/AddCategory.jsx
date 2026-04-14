@@ -50,6 +50,10 @@ export const AddCategory = () => {
       console.error(err.response?.data || err.message);
     } finally {
       setLoading(false);
+      setImage(null);
+      setPreview(null);
+      setName("");
+      setDiscount(0);
     }
   };
 

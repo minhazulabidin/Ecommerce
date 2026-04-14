@@ -10,7 +10,7 @@ export default function RootLayout() {
       <div className="relative pt-17.5 h-screen">
         <Header />
         <div>
-          <div className="flex items-start">
+          <div className="flex py-3 items-start">
             <SideNavBar />
             <Outlet />
           </div>

@@ -15,6 +15,7 @@ exports.addProductController = asyncController(async (req, res) => {
         lower: true,
         trim: true
     })
+
     const uploadedImages = await Promise.all(
         req.files.map(async (file) => {
 
