@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
-import logo from "../../../public/image/logo.png";
+import logo from "../../assets/image/logo.png";
 import { useLoginInfo } from "../../ZustandStore/Auth.store";
 
 export default function Header() {
@@ -8,7 +8,7 @@ export default function Header() {
   const { user } = useLoginInfo();
 
   return (
-    <header className="flex shadow-md py-1 px-4 sm:px-7 bg-white min-h-17.5 tracking-wide z-110 fixed top-0 w-full">
+    <header className="flex shadow-md py-1 px-4 sm:px-7 bg-white min-h-17.5 tracking-wide z-90 fixed top-0 w-full">
       <div className="flex flex-wrap items-center justify-between gap-4 w-full relative">
         <Link to={"/"}>
           <img

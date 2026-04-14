@@ -1,10 +1,12 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import React, { useState } from "react";
 
 export const AddBanner = () => {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [url, setUrl] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -16,7 +18,7 @@ export const AddBanner = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     const formData = new FormData();
     formData.append("image", image);
     formData.append("url", url);
@@ -33,9 +35,17 @@ export const AddBanner = () => {
         },
       );
 
-      console.log(res.data);
+      if (res.data.success) {
+        Swal.fire({
+          title: "Banner upload successfully",
+          icon: "success",
+          draggable: true
+        });
+      }
     } catch (err) {
       console.error(err.response?.data || err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -106,7 +116,7 @@ export const AddBanner = () => {
           type="submit"
           className="px-4 py-3 bg-blue-600 text-white font-medium rounded-xl hover:bg-blue-700 transition"
         >
-          Add Banner
+          {loading ? "Uploading..." : "Add Banner"}
         </button>
       </form>
     </div>
