@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from "react-router";
-import { useLoginInfo } from "../../ZustandStore/Auth.srote";
+import logo from "../../../public/image/logo.png";
+import { useLoginInfo } from "../../ZustandStore/Auth.store";
 
 export default function Header() {
+  
   const { user } = useLoginInfo();
 
   return (
@@ -10,7 +12,7 @@ export default function Header() {
       <div className="flex flex-wrap items-center justify-between gap-4 w-full relative">
         <Link to={"/"}>
           <img
-            src="https://readymadeui.com/readymadeui.svg"
+            src={logo}
             alt="logo"
             className="w-36"
           />
@@ -117,7 +119,7 @@ export default function Header() {
                         <p className="text-sm text-slate-500 mt-1">
                           {user?.data?.email}
                         </p>
-                        <span className="bg-blue-100 text-blue-800 text-xs font-medium px-1.5 py-0.5 rounded">{user.data.role}</span>
+                        <span className="bg-blue-100 text-blue-800 text-xs font-medium px-1.5 py-0.5 rounded">{user?.data?.role}</span>
                       </div>
                     </div>
                     

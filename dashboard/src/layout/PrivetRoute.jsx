@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { useLoginInfo } from "../ZustandStore/Auth.srote";
+import { useLoginInfo } from "../ZustandStore/Auth.store";
 
 export const PrivetRoute = ({ children }) => {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ export const PrivetRoute = ({ children }) => {
       .catch(() => {
         navigate("/login");
       });
-  }, [navigate]);
+  }, [addUserInfo, navigate]);
 
   return <>{children}</>;
 };
