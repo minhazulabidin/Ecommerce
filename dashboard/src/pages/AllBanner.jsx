@@ -4,7 +4,7 @@ import ProductsShowcase from './../Components/ui/ProductsShowcase';
 
 export const AllBanner = () => {
   const [banners, setBanners] = useState([]);
-  console.log(banners)
+
   useEffect(() => {
     const fetchBanners = async () => {
       try {
@@ -25,23 +25,23 @@ export const AllBanner = () => {
   }, []);
 
   return (
-    <div className="max-w-screen py-6 mx-auto">
-      <div className="space-y-6">
-        <div className="grid">
-          <ProductsShowcase
-            cards={banners.map((item) => ({
-              title: item._id,
-              description: "Click to show",
-              src: item.image,
-              ctaText: "Visit",
-              ctaLink: item.url,
-              content: () => (
-                <p>{item.url}</p>
-              ),
-            }))}
-          />
-        </div>
-      </div>
-    </div>
+   <div className="max-w-screen mx-auto">
+         <div className="space-y-6">
+           <div className="">
+             <ProductsShowcase
+               cards={banners.map((item) => ({
+                 title: item._id,
+                 description: "Click to show",
+                 src: item.image,
+                 ctaText: "Visit",
+                 ctaLink: item.url,
+                 content: () => (
+                   <p>{item.url}</p>
+                 ),
+               }))}
+             />
+           </div>
+         </div>
+       </div>
   );
 };
