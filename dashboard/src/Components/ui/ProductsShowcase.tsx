@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useEffect, useId, useRef, useState } from "react";
-
-// import { useOutsideClick } from "@/hooks/use-outside-click";
 import { AnimatePresence } from 'framer-motion';
 import { motion } from 'framer-motion';
 import { useOutsideClick } from '../../hooks/use-outside-click';
@@ -80,7 +78,7 @@ export default function ProductsShowcase({ cards }: { cards: Card[] }) {
             <motion.div
               layoutId={`card-${active.title}-${id}`}
               ref={ref}
-              className="w-full max-w-[500px]  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden"
+              className="w-full max-w-125  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden"
             >
               <motion.div layoutId={`image-${active.title}-${id}`}>
                 <img

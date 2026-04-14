@@ -6,8 +6,8 @@ const { isAuthorizeRole } = require('../../../middleware/isAuthorizeRole');
 const router = express.Router()
 
 router.post('/add-category',
-    // isAuthorize,
-    // isAuthorizeRole("admin"),
+    isAuthorize,
+    isAuthorizeRole("admin"),
     upload.single("image"),
     addCategoryController)
 router.get('/categories', allCategoryController)
