@@ -7,6 +7,14 @@ export const AllProducts = () => {
   const [products, setProducts] = useState([]);
   const [editId, setEditId] = useState(null);
   const [editData, setEditData] = useState({});
+  const [newImage, setNewImage] = useState(null);
+  const [files, setFiles] = useState([]);
+
+  const handleImageChange = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+
+    setFiles(selectedFiles);
+  };
 
   const handleEdit = (product) => {
     setEditId(product._id);
@@ -17,6 +25,7 @@ export const AllProducts = () => {
       price: product.price,
       variantType: product.variantType,
     });
+    setNewImage(null); // reset
   };
 
   const handleChange = (e) => {
@@ -28,16 +37,37 @@ export const AllProducts = () => {
 
   const handleUpdate = async (id) => {
     try {
-      await axios.patch(
-        `${import.meta.env.VITE_API_URL}/products/update/${id}`,
-        editData,
-        { withCredentials: true },
-      );
+      const formData = new FormData();
 
-      // UI update
-      setProducts((prev) =>
-        prev.map((p) => (p._id === id ? { ...p, ...editData } : p)),
-      );
+      formData.append("name", editData.name);
+      formData.append("description", editData.description);
+      formData.append("category", editData.category);
+      formData.append("price", editData.price);
+      formData.append("variantType", editData.variantType);
+
+      files.forEach((file) => {
+        formData.append("image", file);
+      });
+
+      await axios
+        .patch(
+          `${import.meta.env.VITE_API_URL}/products/product-update/${id}`,
+          formData,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+            withCredentials: true,
+          },
+        )
+        .then((res) => {
+          Swal.fire({
+            title: "Success",
+            text: res.data.message,
+            icon: "success",
+          });
+          setProducts((prev) =>
+            prev.map((p) => (p._id === id ? { ...p, ...res.data.data } : p)),
+          );
+        });
 
       setEditId(null);
     } catch (err) {
@@ -96,8 +126,8 @@ export const AllProducts = () => {
   }, []);
 
   return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full bg-white">
+    <div className="overflow-x-auto w-full px-4 py-2">
+      <table className="w-full bg-white">
         <thead className="bg-gray-50 whitespace-nowrap">
           <tr>
             <th className="px-4 py-3 text-left text-sm font-medium text-slate-600">
@@ -174,24 +204,43 @@ export const AllProducts = () => {
         <tbody className="whitespace-nowrap divide-y divide-gray-200">
           {products.map((product) => (
             <tr key={product._id}>
-              <td className="px-4 py-3 text-sm">
+              <div className="flex items-center w-max">
                 {editId === product._id ? (
-                  <input
-                    name="name"
-                    value={editData.name}
-                    onChange={handleChange}
-                    className="border px-2 py-1 rounded w-full"
-                  />
+                  <>
+                    <label className="cursor-pointer">
+                      <img
+                        src={
+                          newImage
+                            ? URL.createObjectURL(newImage)
+                            : product.image[0].url
+                        }
+                        className="w-9 h-9 rounded-full object-cover"
+                      />
+                      <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={handleImageChange}
+                        className="hidden"
+                      />
+                    </label>
+                    <input
+                      name="name"
+                      value={editData.name}
+                      onChange={handleChange}
+                      className="border px-2 py-1 rounded ml-2"
+                    />
+                  </>
                 ) : (
-                  <div className="flex items-center w-max">
+                  <>
                     <img
                       src={product.image[0].url}
                       className="w-9 h-9 rounded-full"
                     />
                     <p className="ml-2">{product.name}</p>
-                  </div>
+                  </>
                 )}
-              </td>
+              </div>
               <td className="px-4 py-3 text-sm">
                 {editId === product._id ? (
                   <input
