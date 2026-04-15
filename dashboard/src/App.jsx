@@ -4,12 +4,12 @@ import { RouterProvider } from "react-router/dom";
 import RootLayout from "./layout/RootLayout";
 import Home from "./pages/Home";
 import AddProduct from "./pages/AddProduct";
-import AllProducts from "./pages/AllProducts";
 import Login from "./pages/Login";
 import { AddCategory } from "./pages/AddCategory";
 import { AllCategory } from "./pages/AllCategory";
 import { AddBanner } from "./pages/AddBanner";
 import { AllBanner } from "./pages/AllBanner";
+import { AllProducts } from "./pages/AllProducts";
 
 export default function App() {
   const router = createBrowserRouter([

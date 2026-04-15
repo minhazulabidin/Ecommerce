@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useId, useRef, useState } from "react";
-import { AnimatePresence } from 'framer-motion';
-import { motion } from 'framer-motion';
-import { useOutsideClick } from '../../hooks/use-outside-click';
+import { AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import { useOutsideClick } from "../../hooks/use-outside-click";
 
 type Card = {
   title: string;
@@ -16,7 +16,7 @@ type Card = {
 
 export default function ProductsShowcase({ cards }: { cards: Card[] }) {
   const [active, setActive] = useState<(typeof cards)[number] | boolean | null>(
-    null
+    null,
   );
   const id = useId();
   const ref = useRef<HTMLDivElement>(null!);

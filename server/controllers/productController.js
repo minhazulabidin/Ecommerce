@@ -57,6 +57,9 @@ exports.allProductController = asyncController(async (req, res) => {
     const allProducts = await productModel.find({}).populate({
         path: "variant",
         select: "color size quantity"
+    }).populate({
+        path: "category",
+        select: "name _id"
     })
     apiResponse(200, res, "All product fetch successfully", allProducts)
 })
